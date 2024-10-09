@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: zsddeliverycreation
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: MY410957
+          url: https://my410957-api.s4hana.cloud.sap
+        app:
+          name: ZSDVL01N
+          description: Delivery Creation With Order Referance
+          package: ZSD_DELIVERY_CREATION
+          transport: CQ5K901641
+        exclude:
+          - /test/

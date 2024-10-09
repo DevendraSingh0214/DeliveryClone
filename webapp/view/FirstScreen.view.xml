@@ -1,0 +1,394 @@
+<mvc:View controllerName="zsddeliverycreation.controller.FirstScreen"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+xmlns:Tab="sap.ui.table" xmlns:C="sap.ui.core" xmlns:F="sap.ui.layout.form">
+    <Page id="page" titleAlignment="Center" showHeader="true" title="{oCatalogMaterialAvlModel>/aPageName}">
+    <!-- <Page id="page" titleAlignment="Center" showHeader="true" title="{i18n>title}"> -->
+        <content>
+            <F:SimpleForm  id="idFirstSimpleForm" layout="ResponsiveGridLayout" columnsL="3" columnsXL="3" columnsM="2" editable="true">
+                <F:content>
+                    <Label design="Bold" id="idSalesOrderNoLabel" text="Sales Order No" />
+                    <MultiInput showValueHelp="true" valueHelpRequest="onSalesOrderNumberValueHelpRequest" liveChange="onSalesOrderNumberLivechange" id="idSalesOrderNoInput"></MultiInput>
+                    <Button id="idGoButton" text="Go" press="onGoButtonPress" type="Accept">
+                        <layoutData>
+                            <l:GridData id="idGoButtonsGridData" span="XL2 L2 M2 S4" />
+                        </layoutData>
+                    </Button>
+                    <Label design="Bold" id="idNoofCopyLabel" text="No of Copy" />
+                    <Input id="idNoofCopyInput" submit="onNumberofDeliveryLiveChange" liveChange="onNumberofDeliveryLiveChange" />
+                    <Label design="Bold" id="idPackingTypeLabel" text="Packing Type" />
+                    <ComboBox required="true" items="{path:'YY1_PACKINGTYPE_CDS>/YY1_PACKINGTYPE'}" selectedKey="UC01"  showSecondaryValues="true" id="idPackingTypeComboBox">
+                        <items>
+                            <C:ListItem id="idPackingTypesListItem" key="{YY1_PACKINGTYPE_CDS>Packing_Code}" text="{YY1_PACKINGTYPE_CDS>Packing_Code}" additionalText="{YY1_PACKINGTYPE_CDS>SAP_Description}"></C:ListItem>
+                        </items>
+                    </ComboBox>
+                    <Label design="Bold" id="idStorageLocationLabel" text="Storage Location" />
+                    <!-- <Input editable="false" id="idStorageLocationInput" /> -->
+                    <ComboBox required="true" editable="false" items="{path:'/StorageLocation',filters: [{ path: 'Plant', operator: 'EQ', value1: '1100' }]}" showSecondaryValues="true" id="idStorageLocationComboBox">
+                        <items>
+                            <C:ListItem id="idStorageLocationListItem" key="{StorageLocation}" text="{StorageLocation}" additionalText="{StorageLocationName}"></C:ListItem>
+                        </items>
+                    </ComboBox>
+
+
+
+                    <Label design="Bold" id="idSalectionTypeLabel" text="Salection Type" />
+                    <ComboBox editable="true" id="idSalectionTypeComboBox" change="onSalectionTypeComboBoxChange" selectedKey="SelectAll"  >
+                        <items>
+                            <C:ListItem id="idSalectionType1ComboBoxListItem" key="SelectAll" text="Select All"></C:ListItem>
+                            <C:ListItem id="idSalectionType2ComboBoxListItem" key="SearchSalesOrderMaterial" text="Search by SO Material"></C:ListItem>
+                        </items>
+                    </ComboBox>
+                    <Label visible="false" design="Bold" id="idSearchSOMaterialLabel" text="Search SO Material" />
+                    <Input visible="false" maxSuggestionWidth="100%" id="idSearchSalesOrderMaterialInput" showSuggestion="true" suggestionItemSelected="onInputSuggestionItemSelected" suggestionRows="{path:'oDataModel>/SearchSalesOrderMaterial', length:5000}">
+                        <suggestionColumns>
+                            <Column hAlign="Center"><Label text="Material" /></Column>
+                            <Column hAlign="Center"><Label text="Description" /></Column>
+                            <Column hAlign="Center"><Label text="Catalog Name" /></Column>
+                            <Column hAlign="Center"><Label text="Sales Order" /></Column>
+                            <Column hAlign="Center"><Label text="SO Item" /></Column>
+                        </suggestionColumns>
+                        <suggestionRows>
+                            <ColumnListItem>
+                                <Label text="{oDataModel>Product}" />
+                                <Label text="{oDataModel>Productdis}" />
+                                <Label text="{oDataModel>catalogname}" />
+                                <Label text="{oDataModel>SalesOrder}" />
+                                <Label text="{oDataModel>SalesOrderItem}" />
+                            </ColumnListItem>
+                        </suggestionRows>
+                        <customData>
+                            <C:CustomData id="idSalesOrderCustomData" key="SalesOrder" />
+                        </customData>
+                    </Input>
+                    <!-- <Input visible="false" id="idSearchSalesOrderMaterialInput" showSuggestion="true" suggestionItemSelected="onInputSuggestionItemSelected" suggestionRows="{path:'/Delivery_Creation', length:5000}">
+                        <suggestionColumns>
+                            <Column hAlign="Center"><Label text="Product" /></Column>
+                            <Column hAlign="Center"><Label text="Productdis" /></Column>
+                            <Column hAlign="Center"><Label text="SalesOrder" /></Column>
+                            <Column hAlign="Center"><Label text="SalesOrderItem" /></Column>
+                        </suggestionColumns>
+                        <suggestionRows>
+                            <ColumnListItem>
+                                <Label text="{Product}" />
+                                <Label text="{Productdis}" />
+                                <Label text="{SalesOrder}" />
+                                <Label text="{SalesOrderItem}" />
+                            </ColumnListItem>
+                        </suggestionRows>
+                        <customData>
+                            <C:CustomData id="idSalesOrderCustomData" key="SalesOrder" />
+                        </customData>
+                    </Input> -->
+                    
+                    <Label visible="false" design="Bold" id="idDocumentDateLabel" text="Document Date" />
+                    <DatePicker visible="false"  editable="false" id="idDocumentDatePicker" displayFormat="dd-MM-yyyy" valueFormat="yyyy-MM-dd" />
+
+                    <Label visible="false"  design="Bold" id="idActualDeliveryDateLabel" text="Actual Delivery Date" />
+                    <DatePicker visible="false"  editable="false" id="idActualDeliveryDatePicker" displayFormat="dd-MM-yyyy" valueFormat="yyyy-MM-dd" />
+                    <!-- <DatePicker valueFormat="yyyy-MM-dd" displayFormat="dd-MM-yyyy" id="idActualDeliveryDatePicker" /> -->
+                    
+
+                    <C:Title id="id1Title"/>
+                    
+                    <Label design="Bold" id="idRemark1Label" text="Remark1" />
+                    <Input id="idRemark1Input" />
+                    <Label design="Bold" id="idRemark2Label" text="Remark2" />
+                    <Input id="idRemark2Input" />
+                    <Label design="Bold" id="idRemark3Label" text="Remark3" />
+                    <Input id="idRemark3Input" />
+                    <Label design="Bold" id="idTransporterCodeLabel" text="Transporter" />
+                    <Input id="idTransporterCodeInput" valueHelpRequest="onInputValueHelpRequest" showValueHelp="true" >
+                        <customData>
+                            <C:CustomData id="idTransporterCodeInputsCustomData" key="Transporter" />
+                        </customData>
+                        <layoutData>
+                            <l:GridData id="idTransporterCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input>
+                    <Input id="idTransporterNameInput" editable="false" />
+                    
+                    <Label design="Bold" id="idParcelCarrierCodeLabel" text="Parcel Carrier" />
+                    <Input id="idParcelCarrierCodeInput" valueHelpRequest="onInputValueHelpRequest" showValueHelp="true" >
+                        <customData>
+                            <C:CustomData id="idParcelCarrierCodeInputsCustomData" key="ParcelCarrier" />
+                        </customData>
+                        <layoutData>
+                            <l:GridData id="idParcelCarrierCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input>
+                    <Input id="idParcelCarrierNameInput" editable="false" />
+
+                    
+                                             
+                    
+                    
+                    
+                    
+                    
+                    
+                                       
+                    
+                    
+
+                    <C:Title id="id2Title"/>
+                    <Label design="Bold" id="idSoldtoPartyCodeLabel" text="Sold to Party" />
+                    <Input editable="false" id="idSoldtoPartyCodeInput">
+                        <layoutData>
+                            <l:GridData id="idSoldtoPartysGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input>
+                    <Input id="idSoldtoPartyNameInput" editable="false" />
+                    <Label design="Bold" id="idShiptoPartyCodeLabel" text="Ship to Party" />
+                    <Input editable="false" id="idShiptoPartyCodeInput">
+                        <layoutData>
+                            <l:GridData id="idShiptoPartyCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input>
+                    <Input id="idShiptoPartyNameInput" editable="false" />
+                    <Label design="Bold" id="idBoxVendorCodeLabel" text="Box Vendor" />
+                    <Input editable="false" id="idBoxVendorCodeInput" >
+                        <layoutData>
+                            <l:GridData id="idBoxVendorCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input>                           
+                    <Input id="idBoxVendorNameInput" editable="false" />
+
+                    <Label design="Bold" id="idPackerCodeLabel" text="Packer" />
+                    <Input editable="false" id="idPackerCodeInput" >
+                        <layoutData>
+                            <l:GridData id="idPackerCodesGridData11" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input> 
+                    <Input id="idPackerNameInput" editable="false" />
+
+                    <Label design="Bold" id="idParcelSticherCodeLabel" text="Parcel Sticher" />
+                    <Input editable="false" id="idParcelSticherCodeInput"  >
+                        <layoutData>
+                            <l:GridData id="idParcelSticherCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input> 
+                    <Input id="idParcelSticherNameInput" editable="false" />
+                    <Label design="Bold" id="idHasteCodeLabel" text="Haste" />
+                    <Input editable="false" id="idHasteCodeInput"  >
+                        <layoutData>
+                            <l:GridData id="idHasteCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input> 
+                    <Input id="idHasteNameInput" editable="false" />
+                    
+                    <Label design="Bold" id="idBrockerCodeLabel" text="Brocker" />
+                    <Input editable="false" id="idBrockerCodeInput"  >
+                        <layoutData>
+                            <l:GridData id="idBrokerCodesGridData" span="XL3 L3 M3 S5" />
+                        </layoutData>
+                    </Input> 
+                    <Input id="idBrockerNameInput" editable="false" />
+
+                    
+                    <!-- <Label design="Bold" id="idTotalDeliveryQuantityLabel" text="Total Delivery Quantity" />
+                    <Input id="idTotalDeliveryQuantityInput" editable="false" /> -->
+                    <C:Title id="id3Title"/>
+                </F:content>
+            </F:SimpleForm>
+            <IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+                <items>
+                    <IconTabFilter id="idGenerateDeliveryIconTabFilter" text="Generate Delivery">
+                        <Tab:Table id="idGenerateDeliveryTable"  alternateRowColors="true" rowSelectionChange="onRowSelectionChange" columnHeaderVisible="true" rows="{path:'oDataModel>/aTableData'}" >
+                            <Tab:extension>
+                                <OverflowToolbar id="id2OverflowToolbar" style="Clear">
+                                    <Label text="Total Delivery Quantity:" design="Bold" id="idTotalDeliveryQuantityLabel"/>
+                                    <Input width="5rem" id="idTotalDeliveryQuantityInput" editable="false" />
+                                    
+                                    <Label text="Taxable Amount:" design="Bold" id="idTaxableAmountLabel"/>
+                                    <Input width="5rem" id="idTaxableAmountInput" editable="false" />
+                                    <ToolbarSpacer id="idToolbarSpacer" />
+                                    <!-- <Label id="idGenerateButtonLabel"/> -->
+                                    <Label design="Bold" visible="false" labelFor="idDeliveryQuantityInput" id="idDeliveryQuantityLabel" text="Delivery Quantity :" />
+                                    <Input width="5rem"  liveChange="onDeliveryQuantityLiveChange" visible="false" id="idDeliveryQuantityInput" />
+                                    <!-- <Button id="idGenerateButton"  visible="false" press="onGenerateDeliveryPress_WithCatalogMaterial"    text="Generate Delivery" type="Accept"/> -->
+                                    <Button id="idGenerateButton"  visible="false" press="onGenerateDeliveryPressBackend" text="Generate Delivery" type="Accept"/>
+                                    <Button id="idGenerate1Button" visible="false" press="onGenerateDeliveryPress_WithoutCatalogMaterial" text="Generate Delivery" type="Accept"/>
+                                    <Button id="idDeleteeButton" visible="false" icon="sap-icon://delete" press="onDeleteDeliveryPress" type="Emphasized"/>
+                                </OverflowToolbar>
+                            </Tab:extension>
+                            <Tab:rowSettingsTemplate>
+                                <Tab:RowSettings id="idRowSettings" highlight="{oDataModel>RowModes}" />
+                            </Tab:rowSettingsTemplate> 
+                            <Tab:noData>
+                                <IllustratedMessage id="idIllustratedMessage" title="No Data Found!!"  enableFormattedText="true" description="Add data to the table using the Fatch button above" />
+                            </Tab:noData>
+                            <Tab:columns>
+                                <Tab:Column width="10rem" sortProperty="SalesOrderNo" filterProperty="SalesOrderNo" id="idSalesOrderNoforTableColumn">
+                                    <Label id="idSalesOrderNoforTableLabel" text="Sales Order No" />
+                                    <Tab:template>
+                                        <Text id="idSalesOrderNoforTableText" text="{oDataModel>SalesOrderNo}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="SalesOrderItem" filterProperty="SalesOrderItem" id="idSalesOrderItemforTableColumn">
+                                    <Label id="idSalesOrderItemforTableLabel" text="Sales Order Item" />
+                                    <Tab:template>
+                                        <Text id="idSalesOrderItemforTableText" text="{oDataModel>SalesOrderItem}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="MaterialCode" filterProperty="MaterialCode" id="idMaterialCodeforTableColumn">
+                                    <Label id="idMaterialCodeforTableLabel" text="Material Code" />
+                                    <Tab:template>
+                                        <Text id="idMaterialCodeforTableText" text="{oDataModel>MaterialCode}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="15rem" sortProperty="MaterialDescription" filterProperty="MaterialDescription" id="idMaterialDescriptionforTableColumn">
+                                    <Label id="idMaterialDescriptionforTableLabel" text="Material Description" />
+                                    <Tab:template>
+                                        <Text id="idMaterialDescriptionforTableText" text="{oDataModel>MaterialDescription}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="CatalogueNumber" filterProperty="CatalogueNumber" id="idCatalogueNumberforTableColumn">
+                                    <Label id="idCatalogueNumberforTableLabel" text="Catalogue Number" />
+                                    <Tab:template>
+                                        <Text id="idCatalogueNumberforTableText" text="{oDataModel>CatalogueNumber}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="CatalogueDescription" filterProperty="CatalogueDescription" id="idCatalogueDescriptionforTableColumn">
+                                    <Label id="idCatalogueDescriptionforTableLabel" text="Catalogue Description" />
+                                    <Tab:template>
+                                        <Text id="idCatalogueDescriptionforTableText" text="{oDataModel>CatalogueDescription}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="OpenQuantity" filterProperty="OpenQuantity" id="idOpenQuantityforTableColumn">
+                                    <Label id="idOpenQuantityforTableLabel" text="Open Quantity" />
+                                    <Tab:template>
+                                        <Text id="idOpenQuantityforTableText" text="{oDataModel>OpenQuantity}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="StockQuantity" filterProperty="StockQuantity" id="idStockQuantityforTableColumn">
+                                    <Label id="idStockQuantityforTableLabel" text="Stock Quantity" />
+                                    <Tab:template>
+                                        <Text id="idStockQuantityforTableText" text="{oDataModel>StockQuantity}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="DeliveryQuantity" filterProperty="DeliveryQuantity" id="idDeliveryQuantityforTableColumn">
+                                    <Label id="idDeliveryQuantityforTableLabel" text="Delivery Quantity" />
+                                    <Tab:template>
+                                        <Input id="idDeliveryQuantityforTableInput" valueState="{oDataModel>DeliveryQuantity_valueState}" editable="{oDataModel>TableDeliveryQuantityFieldEditable}" liveChange="onDeliveryQuantityTablesLiveChange" value="{oDataModel>DeliveryQuantity}"  />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="TotalDeliveryQuantity" filterProperty="TotalDeliveryQuantity" id="idTotalDeliveryQuantityforTableColumn">
+                                    <Label id="idTotalDeliveryQuantityforTableLabel" text="Total Delivery Quantity" />
+                                    <Tab:template>
+                                        <Text id="idTotalDeliveryQuantityforTableText" text="{oDataModel>TotalDeliveryQuantity}" />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="TaxablePrice" filterProperty="TaxablePrice" id="idTaxablePriceforTableColumn">
+                                    <Label id="idTaxablePriceforTableLabel" text="Taxable Price" />
+                                    <Tab:template>
+                                        <Text id="idTaxablePriceforTableText" text="{oDataModel>TaxablePrice}" />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="TaxableAmount" filterProperty="TaxableAmount" id="idTaxableAmountforTableColumn">
+                                    <Label id="idTaxableAmountforTableLabel" text="Taxable Amount" />
+                                    <Tab:template>
+                                        <Text id="idTaxableAmountforTableText" text="{oDataModel>TaxableAmount}" />
+                                    </Tab:template>
+                                </Tab:Column>
+                                <Tab:Column width="10rem" sortProperty="Discount" filterProperty="Discount" id="idDiscountforTableColumn">
+                                    <Label id="idDiscountforTableLabel" text="Discount" />
+                                    <Tab:template>
+                                        <Text id="idDiscountforTableText" text="{oDataModel>Discount}" />
+                                    </Tab:template>
+                                </Tab:Column>
+                            </Tab:columns>
+                        </Tab:Table>
+                    </IconTabFilter>
+                    <IconTabFilter id="idResponseMessageIconTabFilter" text="Response Message">
+                        <Table id="idResponseMessageTable" items="{ path: 'oDataModel>/aSecondTableData'}" mode="MultiSelect" sticky="ColumnHeaders,HeaderToolbar" growing="true" class="sapFDynamicPageAlignContent" width="auto">
+                            <headerToolbar>
+                                <OverflowToolbar id="id3OverflowToolbar">
+                                    <ProgressIndicator visible="false" width="35rem" displayAnimation="true" id="idProgressIndicator" state="Information" displayOnly="true"/>
+                                    <ToolbarSpacer id="id3ToolbarSpacer" />
+                                    <!-- <Button id="idGenerateBatchSplitButton" visible="false" press="onGenerateBatchSplitPress" text="Batch Split" type="Accept"/> -->
+                                    <Button id="idGenerateBatchSplitButton" visible="false" press="onGenerateBatchSplitWithPGIPress" text="Batch Split With PGI" type="Accept"/>
+                                    <Button id="idGeneratePGIButton" visible="false" press="onGeneratePGIPress" text="Generate PGI" type="Accept"/>
+                                    <Button id="idGenerateGetItemButton" visible="false"  press="oCallDeliveryDocumentItemPressOther" text="Get Item" type="Accept"/>
+                                    <Button type="Emphasized" id="idDelete1Button" text="Delete" tooltip="Delete Second Table" press="onGeneratePGIPress1" />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column id="idSecondTableSerialNumberColumn" width="40%">
+                                    <Text id="idSecondTableSerialNumberText" text="Serial Number" />
+                                </Column>
+                                <!-- <Column id="idSecondTableCreationStatusColumn" width="40%">
+                                    <Text id="idSecondTableCreationStatusText" text="Creation Status" />
+                                </Column> -->
+                                <Column id="idSecondTableDeliveryNumberColumn" width="40%">
+                                    <Text id="idSecondTableDeliveryNumberText" text="Delivery Number" />
+                                </Column>
+                                <Column id="idSecondTablePGIStatusColumn" width="40%">
+                                    <Text id="idSecondTablePGIStatusText" text="PGIStatus" />
+                                </Column>
+                                <Column id="idSecondTableErrorMessageColumn" width="100%">
+                                    <Text id="idSecondTableErrorMessageText" text="Error Message" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem id="idSecondTablesColumnListItem" vAlign="Middle">
+                                <!-- <ColumnListItem id="idSecondTablesColumnListItem" type="Navigation" press="onCallDeliveryDocumentItem"  vAlign="Middle"> -->
+                                    <cells>
+                                        <Text text="{oDataModel>SerialNumber}" id="idSecondTablesCellsSerialNumberText"/>
+                                        <!-- <Text text="{oDataModel>CreationStatus}" id="idSecondTablesCellsCreationStatusText"/> -->
+                                        <!-- <Text text="{oDataModel>DeliveryNumber}" id="idSecondTablesCellsDeliveryNumberText" /> -->
+                                        <ObjectStatus id="idSecondTablesCellsDeliveryNumbersObjectStatus" text="{oDataModel>DeliveryNumber}" active="{oDataModel>DeliveryNumberActive}" state="Success" press="onCallDeliveryDocumentItem" />
+                                        <Text text="{oDataModel>PGIStatus}" id="idSecondTablesCellsPGIStatusText" />
+                                        <Text text="{oDataModel>Error}"  class="errorText" id="idSecondTablesCellsErrorMessageText" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+
+
+            <ResponsivePopover id="idResponsivePopover" title="Delivery Documents Item" class="sapUiContentPadding" placement="Auto" contentWidth="50%" >
+                <beginButton>
+                    <Button id="idCloseButtonButton" text="Close" press="onCloseButtonPress" />
+                </beginButton>
+                <content>
+                    <Tab:Table selectionMode="None" class="sapUiResponsiveMargin ResponsivePopoversTable" id="idPartnerTable" rows="{oFirstScreenDataModel>/aFirstScreenData/0/DeliveryItemData}" >
+                        <Tab:noData>
+                            <IllustratedMessage id="idPartnerTablesIllustratedMessage" title="No Data Found!!"  enableFormattedText="true" description="Add data to the table using the Add button above" />
+                        </Tab:noData>
+                        <Tab:columns>
+                        <!-- DeliveryDocumentItemTables -->
+                            <Tab:Column id="idDeliveryDocumentColumn" >
+                                <Label id="idDeliveryDocumentLabel" text="DeliveryDocument" />
+                                <Tab:template>
+                                    <Text id="idDeliveryDocumentInput" text="{oFirstScreenDataModel>DeliveryDocument}"/>
+                                </Tab:template>
+                            </Tab:Column>
+                            <Tab:Column id="idDeliveryDocumentItemColumn" >
+                                <Label id="idDeliveryDocumentItemLabel" text="Delivery Document Item" />
+                                <Tab:template>
+                                    <Text id="idDeliveryDocumentItemInput" text="{oFirstScreenDataModel>DeliveryDocumentItem}"/>
+                                </Tab:template>
+                            </Tab:Column>
+                            <Tab:Column id="idDeliveryDocumentQuantityColumn" >
+                                <Label id="idDeliveryDocumentQuantityLabel" text="Delivery Document Quantity" />
+                                <Tab:template>
+                                    <Text id="idDeliveryDocumentQuantityInput" text="{oFirstScreenDataModel>DeliveryDocumentQuantity}"/>
+                                </Tab:template>
+                            </Tab:Column>
+                            <Tab:Column id="idMaterialColumn" >
+                                <Label id="idMaterialLabel" text="Material" />
+                                <Tab:template>
+                                    <Text id="idMaterialInput" text="{oFirstScreenDataModel>Material}"/>
+                                </Tab:template>
+                            </Tab:Column>                                       
+                        </Tab:columns>
+                    </Tab:Table>
+                </content>
+            </ResponsivePopover>
+        </content>
+    </Page>
+</mvc:View>

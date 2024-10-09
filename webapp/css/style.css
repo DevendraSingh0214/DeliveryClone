@@ -1,0 +1,20 @@
+/* Enter your custom styles here */
+div[id*='idFirstSimpleForm'] div h5 {
+    display: none !important;
+}
+
+
+.ObjectStatusClass{
+    font-size: x-large;
+}
+.errorText{
+    color: red;
+}
+
+
+.CreationStatusClass {
+    font-weight: bold;
+}
+.ResponsivePopoversTable{
+    border: 2px solid black;
+}
